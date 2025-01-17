@@ -37,20 +37,6 @@ async function teardown() {
     });
 }
 
-async function getItems() {
-    return new Promise((acc, rej) => {
-        db.all('SELECT * FROM todo_items', (err, rows) => {
-            if (err) return rej(err);
-            acc(
-                rows.map(item =>
-                    Object.assign({}, item, {
-                        completed: item.complated === 1,
-                    }),
-                ),
-            );
-        });
-    });
-}
 
 async function getItem(id) {
     return new Promise((acc, rej) => {
