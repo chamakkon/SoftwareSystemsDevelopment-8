@@ -37,6 +37,23 @@ async function teardown() {
     });
 }
 
+async function getItem(id) {
+    return new Promise((acc, rej) => {
+        db.all('SELECT * FROM todo_items WHERE id=?', [id], (err, rows) => {
+            if (err) {
+                console.error(err);  // エラーログを出力
+                return rej(err);
+            }
+            if (!rows || rows.length === 0) {
+                return acc(undefined); // ID に対応する行がない場合は undefined を返す
+            }
+            acc({
+                ...rows[0],
+                completed: rows[0].completed === 1,
+            });
+        });
+    });
+}
 
 async function getItem(id) {
     return new Promise((acc, rej) => {
